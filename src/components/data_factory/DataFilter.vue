@@ -88,8 +88,6 @@ export default {
   },
   methods: {
     onSubmit() {
-      //向后台查寻数据  统一查询
-      //获取到product_name
       axios({
         method: "post",
         url: "http://localhost:8081/sc/fpn",
@@ -99,26 +97,10 @@ export default {
         .then(res => {
           //获取到价格
           this.product_names = res.data;
-
           console.log(res.data);
-
           //将pn设为全局变量
           this.$store.commit("changePn", res.data);
-          
           this.$router.push("/co/co_03/gap_01");
-          // console.log(this.product_names);
-
-          // axios({
-          //   method: "post",
-          //   url: "http://localhost:8081/sc/fpmd",
-          //   data: this.product_names
-          // })
-          //   .then(
-          //     res=>{
-          //       this.$router.push("/gap_01");
-          //     }
-          //   )
-          //   .catch();
         })
         .catch();
     }

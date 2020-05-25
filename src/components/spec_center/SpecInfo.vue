@@ -1,6 +1,7 @@
 <template>
   <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)">
     <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)">
+      <!-- 规格数据显示 -->
       <el-table :data="tableData" border style="width: 100%">
         <el-table-column fixed prop="product_name" label="产品名称" width="150"></el-table-column>
         <el-table-column prop="processor" label="处理器" width="120"></el-table-column>
@@ -11,35 +12,44 @@
           <template slot-scope="scope">
             <!-- <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button> -->
 
-            <el-button  @click="open_01(scope.row)" size="small" v-if="right" type="danger" icon="el-icon-delete" circle></el-button>
+            <el-button
+              @click="open_01(scope.row)"
+              size="small"
+              v-if="right"
+              type="danger"
+              icon="el-icon-delete"
+              circle
+            ></el-button>
 
             <!-- 编辑数据    @click="modify(scope.row)" -->
-            <el-button  type="primary" icon="el-icon-edit" circle size="small" @click="modify(scope.row)" v-if="right"></el-button>
+            <el-button
+              type="primary"
+              icon="el-icon-edit"
+              circle
+              size="small"
+              @click="modify(scope.row)"
+              v-if="right"
+            ></el-button>
           </template>
         </el-table-column>
       </el-table>
-      <!-- 分页 -->
+      <!-- 分页 未完成-->
       <div class="block">
         <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :current-page="currentPage1"
-          :page-sizes="[5, 10, 15, 20]"
-          :page-size="5"
+          :current-page="currentPage"
+          :page-sizes="[2, 3, 4, 5]"
+          :page-size="pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
         ></el-pagination>
       </div>
     </div>
-
+    <!-- 增加spec -->
     <div
-      style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); margin-top: 30px;"
-    >
-      <!-- 增加spec -->
-      <el-button type="primary" @click="add('addForm')" v-if="right" round>
-        发布新产品
-        <!-- <i class="el-icon-circle-plus el-icon--right"></i> -->
-      </el-button>
+      style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); margin-top: 30px;">
+      <el-button type="primary" @click="add('addForm')" v-if="right">发布新产品</el-button>
 
       <el-dialog title="新建spec" :visible.sync="newSpecFormVisible">
         <el-form :model="form" :rules="rules" ref="addForm">
@@ -72,8 +82,7 @@
     </div>
     <!-- 修改spec -->
     <div
-      style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); margin-top: 30px;"
-    >
+      style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); margin-top: 30px;">
       <el-dialog title="修改spec" :visible.sync="modifySpecFormVisible">
         <el-form :model="row" :rules="rules" ref="modifyForm">
           <el-form-item label="product_name" :label-width="formLabelWidth" prop="product_name">
@@ -102,14 +111,10 @@
         </div>
       </el-dialog>
     </div>
-
+    <!-- 评论 未完成-->
     <div
-      style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); margin-top: 30px;height:300px"
-    >评论区</div>
-
-    <div
-      style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); margin-top: 5px;"
-    >
+      style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); margin-top: 5px;">
+      <h3>评论区</h3>
       <el-form :inline="true" :model="msg" class="demo-form-inline">
         <el-form-item>
           <el-input v-model="msg.mes"></el-input>
@@ -163,11 +168,14 @@ export default {
     return {
       //分页
       total: 0,
-      currentPage1: 1,
+      currentPage: 1,
+      pageSize: 5,
+
+
       //权限限制功能
       right: false,
 
-      //数据显示
+      //表格数据
       tableData: [
         // {
         //   product_name: "",
@@ -177,7 +185,7 @@ export default {
         //   hard_disk_capacity: ""
         // }
       ],
-      //增加
+      //增加 修改的内嵌表格的显示控制
       newSpecFormVisible: false,
       modifySpecFormVisible: false,
       form: {
@@ -188,6 +196,7 @@ export default {
         display_card: ""
       },
       formLabelWidth: "120px",
+      // 验证
       rules: {
         product_name: [{ validator: validateProduct_name, trigger: "blur" }],
         processor: [{ validator: validateProcessor, trigger: "blur" }],
@@ -221,13 +230,22 @@ export default {
   },
 
   methods: {
-    //分页
+    //分页 功能暂未实现
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      if(val!=this.pageSize){
+        this.pageSize=val;
+        this.getData();
+      }
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      if(val!=this.currentPage){
+        this.currentPage=val;
+        this.getData();
+      }
     },
+
+
+
     //修改数据
     modify(row) {
       this.modifySpecFormVisible = true;
@@ -235,6 +253,7 @@ export default {
       this.row = row;
       // this.row_counterpart=row;
     },
+    //提交修改后的数据
     submitModifyForm() {
       var self = this;
       axios({
@@ -246,14 +265,15 @@ export default {
         .catch();
 
       //更新表格数据
-      axios({
-        method: "get",
-        url: "http://localhost:8081/sc/spec_find"
-      })
-        .then(res => {
-          console.log(self.tableData);
-        })
-        .catch();
+      // axios({
+      //   method: "get",
+      //   url: "http://localhost:8081/sc/spec_find"
+      // })
+      //   .then(res => {
+      //     console.log(self.tableData);
+      //   })
+      //   .catch();
+      this.getData();
       this.modifySpecFormVisible = false;
     },
     //取消修改
@@ -280,15 +300,18 @@ export default {
     },
 
     //增加数据
-    add(name){
-      this.newSpecFormVisible=true;
-      var form=this.form;
-      form.product_name='';
-      form.ram='';
-      form.hard_disk_capacity='';
-      form.processor='';
-      form.display_card='';
+    add(name) {
+      this.newSpecFormVisible = true;
+      var form = this.form;
+      //先置空
+
+      form.product_name = "";
+      form.ram = "";
+      form.hard_disk_capacity = "";
+      form.processor = "";
+      form.display_card = "";
     },
+    //增加数据到数据库   会出现延时问题
     submitForm(formName) {
       var self = this;
       self.$refs[formName].validate(valid => {
@@ -301,26 +324,24 @@ export default {
           })
             .then()
             .catch();
-          // //提交后数据仍在input框中 提交后清空
-          // self.$refs[formName].resetFields();
           console.log(self.form);
 
           //更新表格数据
-          axios({
-            method: "get",
-            url: "http://localhost:8081/sc/spec_find"
-          })
-            .then(res => {
-              // for (var i = 0; i < res.data.length; i++) {
-              //    self.tableData.push(res.data[i]);
-              // }
-              self.total = res.data.length;
-              console.log(self.total);
-              self.tableData = res.data;
-              console.log(self.tableData);
-            })
-            .catch();
-          // this.getData();
+          // axios({
+          //   method: "get",
+          //   url: "http://localhost:8081/sc/spec_find"
+          // })
+          //   .then(res => {
+          //     // for (var i = 0; i < res.data.length; i++) {
+          //     //    self.tableData.push(res.data[i]);
+          //     // }
+          //     self.total = res.data.length;
+          //     console.log(self.total);
+          //     self.tableData = res.data;
+          //     console.log(self.tableData);
+          //   })
+          //   .catch();
+          this.getData();
           self.newSpecFormVisible = false;
         } else {
           alert("error submit!!");
@@ -328,38 +349,47 @@ export default {
         }
       });
     },
+    // 重置
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    //第一次请求数据
+    //请求数据
     getData() {
+
       var self = this;
+
+      var map=new Object();
+      map.currentPage=this.currentPage;
+      map.pageSize=this.pageSize;
       axios({
-        method: "get",
-        url: "http://localhost:8081/sc/spec_find"
+        method: "post",
+        url: "http://localhost:8081/sc/spec_find",
+        data: map
+        
       })
         .then(res => {
-          self.tableData = res.data;
-          console.log(self.tableData);
-          self.total = res.data.length;
-          console.log(self.total);
+          
+          // console.log(self.tableData);
+          console.log(res);
+          self.tableData = res.data.list;
+          self.total=res.data.total;
+
         })
         .catch();
     },
 
-    //删除
+    //删除   会出现延时问题
     open_01(row) {
-      // var product_name = [row.product_name];
       var self = this;
       var delData = {
         product_name: row.product_name
       };
-
-      self.$confirm("此操作将永久删除该记录, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
+      self
+        .$confirm("此操作将永久删除该记录, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
         .then(() => {
           axios({
             method: "post",
@@ -369,17 +399,18 @@ export default {
             .then()
             .catch();
 
-          //更新表格数据
-          axios({
-            method: "get",
-            url: "http://localhost:8081/sc/spec_find"
-          })
-            .then(res => {
-              self.total = res.data.length;
-              self.tableData = res.data;
-              console.log(self.tableData);
-            })
-            .catch();
+          //更新表格数据getData();
+          this.getData();
+          // axios({
+          //   method: "get",
+          //   url: "http://localhost:8081/sc/spec_find"
+          // })
+          //   .then(res => {
+          //     self.total = res.data.length;
+          //     self.tableData = res.data;
+          //     console.log(self.tableData);
+          //   })
+          //   .catch();
 
           self.$message({
             type: "success",
@@ -393,22 +424,21 @@ export default {
           });
         });
     },
-
+    //提交表单
     onSubmit() {
       console.log("submit!");
     }
   },
-  //功能按钮是否显示
+
+  //功能按钮是否显示 权限控制  查询数据库进行验证  或者是响应式布局
   created() {
-    console.log(this.right);
-    console.log(sessionStorage.getItem("username"));
     if (sessionStorage.getItem("username") == "00001") {
       this.right = true;
     } else {
     }
-    console.log(this.right);
   },
 
+  //初始化
   mounted() {
     this.getData();
   }

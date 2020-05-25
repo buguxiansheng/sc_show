@@ -15,9 +15,9 @@
     </el-aside>
 
     <el-container>
-      <el-header style="text-align: right; font-size: 12px">
+      <el-header>
         <el-dropdown @command="login_out">
-          <i class="el-icon-setting" style="margin-right: 15px"></i>
+          <i class="el-icon-setting" style="margin-right: 15px ;float:right;"></i>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="a">个人中心</el-dropdown-item>
             <el-dropdown-item command="b">退出</el-dropdown-item>
@@ -64,4 +64,12 @@ export default {
 </script>
 
 <style>
+header.el-header{
+  text-align: right;
+  font-size: 12px;
+  background-color: burlywood;
+}
+main.el-main{
+  padding: 0;
+}
 </style>

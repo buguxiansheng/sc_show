@@ -1,5 +1,5 @@
 <template>
-  <div id="app" >
+  <div id="app"  >
     <!-- 默认跳转 -->
     <router-view></router-view>
   </div>
@@ -7,13 +7,15 @@
 
 <style>
 html,body,#app {
-  height: 100%;
+  margin:0;
+  height:100%;
+  /* background-image: url("assets/image/login-background.jpg"); */
+  background-color: lightgray
 }
-.el-main{
+el-main{
   padding: 0;
 }
 .el-header {
-  background-color: #105a97;
   color: #333;
   line-height: 60px;
 }

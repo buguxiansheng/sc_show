@@ -1,20 +1,20 @@
 <template>
-  <div>
-    <div style="text-align: center; position: absolute; left: 45%; top:15%">
-      <h1>SmartCost</h1>
-    </div>
-    <div id="app" style="position:absolute; top:30% ; left:35% ;">
+    <div style="width:300px; 
+    height:300px ;
+    position:absolute;
+     top:30% ; left:35% ;
+     ">
     <el-form
       :model="ruleForm"
       status-icon
       :rules="rules"
       ref="ruleForm"
       label-width="100px"
-      class="demo-ruleForm"
+      
     >
-    
-      <el-form-item label="账号" prop=".empno">
-        <el-input type="text" v-model="ruleForm.empno" autocomplete="off"></el-input>
+      <h2>SmartCost</h2>
+      <el-form-item label="账号" prop="empno">
+        <el-input type="text" v-model="ruleForm.empno" autocomplete="off" ></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="pass">
         <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
@@ -30,7 +30,6 @@
       </el-form-item>
     </el-form>
   </div>
-</div>
 </template>
 
 <script>
@@ -74,12 +73,14 @@ export default {
       }).then(
         re =>{
           //在这里验证和跳转
-          if(re.data.status=="1"){
+          if(re.data.status==="1"){
+
             //充当权限级别
             sessionStorage.setItem("username",this.ruleForm.empno);
             //存储token
             localStorage.setItem("token",re.data.token);
             alert("登录成功");
+            
             this.$router.push({ path: "/cob/cob_01" });
           }else{
             // this.$options.methods.resetForm(formName);
@@ -106,4 +107,18 @@ export default {
 </script>
 
 <style>
+h2{
+  text-align: center;
+}
+el-form-item__label {
+    text-align: right;
+    vertical-align: middle;
+    float: left;
+    font-size: 14px;
+    color: #606266;
+    line-height: 40px;
+    padding: 0 20px 0 0;
+    box-sizing: border-box;
+}
+
 </style>

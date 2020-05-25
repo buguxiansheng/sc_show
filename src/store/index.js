@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     product_names:[],
     // username:sessionStorage.getItem("username") || ''
-    username:''
+    username:'',
+    rate:""
   },
   mutations: {
     changePn(state,newVal){
@@ -18,7 +19,12 @@ export default new Vuex.Store({
       state.username=newVal;
       //这里不要写其他东西
       // sessionStorage.setItem("username",newval);
+    },
+    //设置比
+    setRate(state,newVal){
+      state.rate=newVal;
     }
+
   },
   actions: {
   },

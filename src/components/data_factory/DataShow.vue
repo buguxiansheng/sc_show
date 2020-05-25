@@ -1,5 +1,6 @@
 <template>
   <div class="Echarts">
+    <!-- 筛选得到的数据 -->
     <el-table :data="tableData" height="250" border style="width: 100%">
       <el-table-column fixed prop="id" label="编号" width="60"></el-table-column>
       <el-table-column fixed prop="product_name" label="产品名" width="100"></el-table-column>
@@ -11,7 +12,10 @@
       <el-table-column prop="material_cost" label="物料支出" width="120"></el-table-column>
       <el-table-column prop="product_amount" label="生产数量" width="120"></el-table-column>
     </el-table>
+    <!-- 平均的饼状图 -->
     <div id="main_01" style="width: 100%;height:300px;"></div>
+
+    <!-- 高中低三部分的柱状图 -->
     <div id="main" style="width: 100%;height:400px; "></div>
   </div>
 </template>
@@ -22,6 +26,7 @@ export default {
 
   data() {
     return {
+      //饼状图数据  pc中数据响应 会出现的问题
       pc: [
         { value: 235, name: "salary_cost" },
         { value: 274, name: "machine_cost" },
@@ -29,6 +34,7 @@ export default {
         { value: 335, name: "legal_cost" },
         { value: 400, name: "environment_cost"}
       ],
+      //高中低数据
       rate:[
         [],
         [],
@@ -36,47 +42,46 @@ export default {
         [],
         []
       ],
+      //赛选数据
       tableData: [
       ]
     };
   },
   watch:{
+      //即时响应  pc为发生变化的数据
       pc:{
         handler(newVal,oldVal){
           this.pc=newVal;
           this.myEcharts_01();
         },
-        //啥意思
         deep: true,
 	      // immediate: true
       },
+      //即时响应 rate为发生变化的数据
       rate:{
         handler(newVal,oldVal){
           this.rate=newVal;
           this.myEcharts();
         },
-        //啥意思
         deep: true,
       },
+
+      
+      //为什么tabledata不写也能即时响应
       tableData:{
         handler(newVal,oldVal){
           this.tableData=newVal; 
           // console.log(this.tableData);
         },
-        deep: true,
-        
+        deep: true, 
       }
   },
   methods: {
 
-    //最大    最小 和  当前
+    //高中低
     myEcharts() {
-      // 基于准备好的dom，初始化echarts实例
+      
       var myChart = this.$echarts.init(document.getElementById("main"));
-
-      // 指定图表的配置项和数据
-
-      //
       var option = {
         dataset: {
           source: this.rate
@@ -86,7 +91,6 @@ export default {
           text: "CostCompare"
         },
         tooltip: {
-
         },
         legend: {
 
@@ -119,12 +123,10 @@ export default {
           }
         ]
       };
-
-      // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option, true);
     },
 
-    //饼图展示花费比例
+    //饼图
     myEcharts_01() {
       
       var myChart = this.$echarts.init(document.getElementById("main_01"));
@@ -132,12 +134,11 @@ export default {
       var option = {
         title: {
           text: "Cost Consist",
-          // left: "center",
           top: 20
-          // textStyle: {
-          //   color: "#ccc"
-          // }
+         
         },
+        //formatter属性  {a}是series中的name; b是series.data中的name ; c是series.data中的value; d是自动得出的比例
+
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b} : ({d}%)"
@@ -174,8 +175,7 @@ export default {
           data: pn
         })
           .then(res => {
-           
-
+          
             //绑定饼图的数据
             bc = res.data;
             this.pc[0].value = bc[0][0].salary_cost;
@@ -186,7 +186,7 @@ export default {
 
 
 
-            //绑定柱状图的数据
+            //高中低
             this.rate[0].push("salary_cost");
             this.rate[0].push(bc[0][1].salary_cost);
             this.rate[0].push(bc[0][0].salary_cost);
@@ -257,13 +257,7 @@ export default {
         alert("还未有历史记录,暂无报价");
         // this.$router.push();
       }
-    },
-    // fresh(){
-    //   var myChart = this.$echarts.init(document.getElementById("main_01"));
-    //   var option_new = this.myChart.getOption();
-    //   option_new.series[0].data =this.pc;
-    //   myChart.setOption(option_new);
-    // }
+    }
   },
 
   mounted() {
