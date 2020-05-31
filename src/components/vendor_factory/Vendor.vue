@@ -47,7 +47,7 @@
       <!-- 生成原材料报价单   导出功能 -->
       <el-button type="primary" @click="show" style="float:left">生成原材料报价单</el-button>
 
-      <el-button type="primary" @click>导出</el-button>
+      <el-button type="primary" @click="exportToExcel">导出</el-button>
 
       <!-- 原材料报价单 -->
       <el-table
@@ -114,6 +114,37 @@ export default {
     };
   },
   methods: {
+    exportToExcel(){
+      require.ensure(
+        [],()=>{
+          const { export_json_to_excel } = require("../../excel/Export2Excel");
+          const tHeader=[
+              "名称及规格",
+              "数量(个)",
+              "单价(元)",
+              "合计(元)",
+              "供应商"
+          ];
+          
+          const filterVal=[
+              "spec",
+              "amount",
+              "price",
+              "sum",
+              "vendor"
+          ];
+          const list=this.tableData;
+          const data=this.formatJson(filterVal,list);
+          export_json_to_excel(tHeader,data,"物料报价单");
+        }
+      )
+    },
+    formatJson(filterVal,jsonData){
+      return jsonData.map(v=>filterVal.map(j=>v[j]));
+    },
+
+
+
     show() {
       this.right = true;
     },

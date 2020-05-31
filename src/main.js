@@ -8,10 +8,15 @@ import './plugins/element.js'
 import echarts from 'echarts'
 import qs from 'qs'
 
+import XLSX from 'xlsx'
+
+Vue.prototype.XLSX=XLSX
+
 
 Vue.config.productionTip = false
 
 Vue.prototype.$echarts = echarts
+
 Vue.prototype.$qs = qs
 
 new Vue({

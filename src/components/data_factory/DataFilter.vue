@@ -32,7 +32,10 @@
       <el-form-item label="显卡">
         <el-radio-group v-model="form.dispaly_card">
           <el-radio label="GTX1650"></el-radio>
-          <el-radio label="MX 350"></el-radio>
+          <el-radio label="GTX980"></el-radio>
+          <el-radio label="GTX970"></el-radio>
+          <el-radio label="GTX960"></el-radio>
+          <el-radio label="GTX950"></el-radio>
         </el-radio-group>
       </el-form-item>
 
@@ -76,12 +79,24 @@ export default {
       product_names: [],
       options: [
           {
-            value: "i7-1065G7",
-            label: "i7-1065G7"
+            value: "i7",
+            label: "i7"
           },
           {
-            value: "i5-9300H",
-            label: "i5-9300H"
+            value: "i6",
+            label: "i6"
+          },
+          {
+            value: "i5",
+            label: "i5"
+          },
+          {
+            value: "i4",
+            label: "i4"
+          },
+          {
+            value: "i3",
+            label: "i3"
           }
         ]
     };
