@@ -1,8 +1,8 @@
 <template>
-  <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)">
-    <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)">
+  <div id="main">
+    <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04) ">
       <!-- 规格数据显示 -->
-      <el-table :data="tableData" border style="width: 100%">
+      <el-table :data="tableData" border style="width: 100%; height:400px filter:alpha(opacity=50,Style=0);">
         <el-table-column fixed prop="product_name" label="产品名称" width="150"></el-table-column>
         <el-table-column prop="processor" label="处理器" width="120"></el-table-column>
         <el-table-column prop="hard_disk_capacity" label="硬盘" width="120"></el-table-column>
@@ -33,7 +33,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <!-- 分页 未完成-->
+      <!-- 分页 -->
       <div class="block">
         <el-pagination
           @size-change="handleSizeChange"

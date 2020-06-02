@@ -40,7 +40,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">报价结果</el-button>
+        <el-button type="primary" @click="onSubmit">成本占比</el-button>
       </el-form-item>
 
     <!-- 生产数量 -->

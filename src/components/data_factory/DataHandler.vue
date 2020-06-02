@@ -1,9 +1,9 @@
 
 <template>
-  <el-container style="height:100%; border: 1px solid #eee">
+  <el-container style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)">
 
-    <el-aside width="150px" style="background-color: rgb(238, 241, 246)"> 
-      <el-menu router>
+    <el-aside  style="width:150px !important; font-size:14px"> 
+      <el-menu router style="padding:0px">
         <el-menu-item v-for="(nav,id) in $router.options.routes[1].children[1].children" :index="nav.path" :class="$route.path==nav.path?'is-active':''"> <i class="el-icon-check">{{nav.name}}</i></el-menu-item>
       </el-menu>
     </el-aside>

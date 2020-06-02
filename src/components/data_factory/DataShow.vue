@@ -13,7 +13,7 @@
       <el-table-column prop="product_amount" label="生产数量" width="120"></el-table-column>
     </el-table>
     <!-- 平均的饼状图 -->
-    <div id="main_01" style="width: 100%;height:300px;"></div>
+    <div id="main_01" ></div>
 
     <!-- 高中低三部分的柱状图 -->
     <div id="main" style="width: 100%;height:400px; "></div>
@@ -26,6 +26,7 @@ export default {
 
   data() {
     return {
+      // confirm:false,
       //饼状图数据  pc中数据响应 会出现的问题
       pc: [
         { value: 235, name: "salary_cost" },
@@ -262,6 +263,10 @@ export default {
 
   mounted() {
     this.getData();
+    // if(this.tableData.length!=0){
+    //   this.confirm=true;
+    // }
+    console.log(this.confirm);
     //此处获取数据
     // this.myEcharts();
     // this.myEcharts_01();
@@ -275,4 +280,17 @@ export default {
 </script>
 
 <style>
+#main_01{
+  height: 300px;
+  width:100%;
+  padding-top:10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+}
+
+#main{
+  height: 300px;
+  width:100%;
+  padding-top:10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+}
 </style>

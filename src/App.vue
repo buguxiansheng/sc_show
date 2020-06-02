@@ -1,27 +1,26 @@
 <template>
   <div id="app"  >
     <!-- 默认跳转 -->
+    <img src="./assets/image/login_07.jpg">
     <router-view></router-view>
   </div>
 </template>
 
 <style>
-html,body,#app {
+html,body{
   margin:0;
   height:100%;
   /* background-image: url("assets/image/login-background.jpg"); */
-  background-color: lightgray
 }
-el-main{
-  padding: 0;
+#app{
+  position: relative;
+  height: 100%;
+  /* background: url('./assets/login-background.jpg'); */
 }
-.el-header {
-  color: #333;
-  line-height: 60px;
-}
-
-.el-aside {
-  color: rgb(68, 32, 59);
+img{
+  position:absolute;
+  height: 100%;
+  width: 100%
 }
 </style>
 
