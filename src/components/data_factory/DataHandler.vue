@@ -1,14 +1,14 @@
 
 <template>
-  <el-container style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)">
+  <el-container style="box-shadow:none !important">
 
-    <el-aside  style="width:150px !important; font-size:14px"> 
+    <el-aside  style="width:150px !important; font-size:14px;"> 
       <el-menu router style="padding:0px">
-        <el-menu-item v-for="(nav,id) in $router.options.routes[1].children[1].children" :index="nav.path" :class="$route.path==nav.path?'is-active':''"> <i class="el-icon-check">{{nav.name}}</i></el-menu-item>
+        <el-menu-item v-for="(nav,id) in $router.options.routes[1].children[1].children" :index="nav.path" :key="id" :class="$route.path==nav.path?'is-active':''"> <i class="el-icon-check">{{nav.name}}</i></el-menu-item>
       </el-menu>
     </el-aside>
 
-    <el-main style="padding:0px">
+    <el-main style="padding:0px ;box-shadow:none !important">
        <router-view></router-view>
     </el-main>
   </el-container>

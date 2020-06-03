@@ -16,7 +16,7 @@
     <div id="main_01" ></div>
 
     <!-- 高中低三部分的柱状图 -->
-    <div id="main" style="width: 100%;height:400px; "></div>
+    <div id="main_02" style="width: 100%;height:400px;  "></div>
   </div>
 </template>
 
@@ -82,7 +82,7 @@ export default {
     //高中低
     myEcharts() {
       
-      var myChart = this.$echarts.init(document.getElementById("main"));
+      var myChart = this.$echarts.init(document.getElementById("main_02"));
       var option = {
         dataset: {
           source: this.rate
@@ -282,15 +282,19 @@ export default {
 <style>
 #main_01{
   height: 300px;
-  width:100%;
-  padding-top:10px;
+  width:98%;
+  margin-top: 10px;
+  margin-left:2px;
+  margin-right: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 }
 
-#main{
+#main_02{
   height: 300px;
-  width:100%;
-  padding-top:10px;
+  width:98% !important;
+  margin-top: 10px;
+  margin-left:2px;
+  margin-right: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 }
 </style>

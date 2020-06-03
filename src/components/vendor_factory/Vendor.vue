@@ -1,51 +1,55 @@
 <template>
-  <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)">
-    <el-form
-      :model="numberValidateForm"
-      ref="numberValidateForm"
-      label-width="100px"
-      class="demo-ruleForm"
-    >
-      <!-- 数量输入框 -->
-      <el-form-item
-        label="数量"
-        prop="amount"
-        :rules="[
+  <div>
+    <div id="cost">
+      <el-form
+        :model="numberValidateForm"
+        ref="numberValidateForm"
+        label-width="100px"
+        class="demo-ruleForm"
+        style="padding-top:10px"
+      >
+        <!-- 数量输入框 -->
+        <el-form-item
+          label="数量"
+          prop="amount"
+          :rules="[
           { required: true, message: '数量不能为空'},
           { type: 'number', message: '数量必须为数字值'}
         ]"
-      >
-        <el-input
-          type="text"
-          v-model.number="numberValidateForm.amount"
-          autocomplete="off"
-          style=" width:200px"
-        ></el-input>
-      </el-form-item>
+        >
+          <el-input
+            type="text"
+            v-model.number="numberValidateForm.amount"
+            autocomplete="off"
+            style=" width:200px"
+          ></el-input>
+        </el-form-item>
 
-      <el-form-item>
-        <el-button type="primary" @click="submitForm('numberValidateForm')">提交</el-button>
-        <el-button @click="resetForm('numberValidateForm')">重置</el-button>
-      </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('numberValidateForm')">提交</el-button>
+          <el-button @click="resetForm('numberValidateForm')">重置</el-button>
+        </el-form-item>
 
-      <!-- 价格生成框  -->
-      <el-form-item label="报价">
-        <el-input
-          type="text"
-          autocomplete="off"
-          style=" width:200px "
-          :disabled="true"
-          v-model="cost"
-        ></el-input>
-      </el-form-item>
-    </el-form>
-
-    <h3>物料组成可视化</h3>
-    <div id="rule">
+        <!-- 价格生成框  -->
+        <el-form-item label="报价">
+          <el-input
+            type="text"
+            autocomplete="off"
+            style=" width:200px "
+            :disabled="true"
+            v-model="cost"
+          ></el-input>
+        </el-form-item>
+      </el-form>
     </div>
-    <div>
+
+    <div id="rule">
+      <h3>请先输入数量</h3>
+    </div>
+
+    <div id="behave">
       <!-- 生成原材料报价单   导出功能 -->
-      <el-button type="primary" @click="show" style="float:left">生成原材料报价单</el-button>
+      <el-button type="primary" @click="show" style="float:left">原材料报价单预览</el-button>
 
       <el-button type="primary" @click="exportToExcel">导出</el-button>
 
@@ -114,44 +118,38 @@ export default {
     };
   },
   methods: {
-    exportToExcel(){
-      require.ensure(
-        [],()=>{
-          const { export_json_to_excel } = require("../../excel/Export2Excel");
-          const tHeader=[
-              "名称及规格",
-              "数量(个)",
-              "单价(元)",
-              "合计(元)",
-              "供应商"
-          ];
-          
-          const filterVal=[
-              "spec",
-              "amount",
-              "price",
-              "sum",
-              "vendor"
-          ];
-          const list=this.tableData;
-          const data=this.formatJson(filterVal,list);
-          export_json_to_excel(tHeader,data,"物料报价单");
-        }
-      )
-    },
-    formatJson(filterVal,jsonData){
-      return jsonData.map(v=>filterVal.map(j=>v[j]));
-    },
+    exportToExcel() {
+      if(this.tableData.length==0){
+        alert("暂无物料数据");
+      }else{
+      require.ensure([], () => {
+        const { export_json_to_excel } = require("../../excel/Export2Excel");
+        const tHeader = [
+          "名称及规格",
+          "数量(个)",
+          "单价(元)",
+          "合计(元)",
+          "供应商"
+        ];
 
-
+        const filterVal = ["spec", "amount", "price", "sum", "vendor"];
+        const list = this.tableData;
+        const data = this.formatJson(filterVal, list);
+        export_json_to_excel(tHeader, data, "物料报价单");
+      });
+      }
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => v[j]));
+    },
 
     show() {
       this.right = true;
     },
     tableRowClassName({ row, rowIndex }) {
-      if (rowIndex%2 === 1) {
+      if (rowIndex % 2 === 1) {
         return "warning-row";
-      } else if (rowIndex%2 === 0) {
+      } else if (rowIndex % 2 === 0) {
         return "success-row";
       }
       return "";
@@ -196,7 +194,7 @@ export default {
               position: "insideRight"
             },
             // data: this.tableData[0].sum
-           data:[this.tableData[0].sum]
+            data: [this.tableData[0].sum]
           },
           {
             name: "ram",
@@ -207,7 +205,7 @@ export default {
               position: "insideRight"
             },
             // data:this.tableData[1].sum
-            data:[this.tableData[1].sum]
+            data: [this.tableData[1].sum]
           },
           {
             name: "hard_disk_capacity",
@@ -218,7 +216,7 @@ export default {
               position: "insideRight"
             },
             // data: this.tableData[3].sum
-            data:[this.tableData[3].sum]
+            data: [this.tableData[3].sum]
           },
           {
             name: "display",
@@ -229,8 +227,8 @@ export default {
               position: "insideRight"
             },
             // data: this.tableData[2].sum
-            data:[this.tableData[2].sum]
-          } 
+            data: [this.tableData[2].sum]
+          }
         ]
       };
       // 使用刚指定的配置项和数据显示图表。
@@ -273,7 +271,7 @@ export default {
         })
         .catch();
     }
-  },
+  }
   // mounted() {
   //   this.myEcharts();
   // }
@@ -292,5 +290,19 @@ export default {
 
 .el-table .success-row {
   background: #f0f9eb;
+}
+#cost{
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  height: 200px;
+  position: relative;
+
+}
+#behave{
+  margin-top: 10px;
+  
+}
+h3{
+    padding-top: 10%;
+    padding-left: 45%;
 }
 </style>

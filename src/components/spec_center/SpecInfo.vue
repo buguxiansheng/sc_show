@@ -2,7 +2,11 @@
   <div id="main">
     <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04) ">
       <!-- 规格数据显示 -->
-      <el-table :data="tableData" border style="width: 100%; height:400px filter:alpha(opacity=50,Style=0);">
+      <el-table
+        :data="tableData"
+        border
+        style="width: 100%; height:400px filter:alpha(opacity=50,Style=0);"
+      >
         <el-table-column fixed prop="product_name" label="产品名称" width="150"></el-table-column>
         <el-table-column prop="processor" label="处理器" width="120"></el-table-column>
         <el-table-column prop="hard_disk_capacity" label="硬盘" width="120"></el-table-column>
@@ -47,8 +51,7 @@
       </div>
     </div>
     <!-- 增加spec -->
-    <div
-      style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); margin-top: 30px;">
+    <div style="margin-top: 20px;">
       <el-button type="primary" @click="add('addForm')" v-if="right">发布新产品</el-button>
 
       <el-dialog title="新建spec" :visible.sync="newSpecFormVisible">
@@ -82,7 +85,8 @@
     </div>
     <!-- 修改spec -->
     <div
-      style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); margin-top: 30px;">
+      style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); margin-top: 30px;"
+    >
       <el-dialog title="修改spec" :visible.sync="modifySpecFormVisible">
         <el-form :model="row" :rules="rules" ref="modifyForm">
           <el-form-item label="product_name" :label-width="formLabelWidth" prop="product_name">
@@ -113,17 +117,18 @@
     </div>
     <!-- 评论 未完成-->
     <div
-      style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); margin-top: 5px;">
-      <h3>评论区</h3>
-      <el-form :inline="true" :model="msg" class="demo-form-inline">
-        <el-form-item>
-          <el-input v-model="msg.mes"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit">发送</el-button>
-        </el-form-item>
-      </el-form>
+      style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); margin-top: 5px; width:100%;height:200px"
+    >
+      <h3>留言区</h3>
     </div>
+    <el-form :inline="true" :model="msg" class="demo-form-inline" style="margin-top:10px">
+      <el-form-item>
+        <el-input v-model="msg.mes"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit">留言</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -170,7 +175,6 @@ export default {
       total: 0,
       currentPage: 1,
       pageSize: 5,
-
 
       //权限限制功能
       right: false,
@@ -232,19 +236,17 @@ export default {
   methods: {
     //分页 功能暂未实现
     handleSizeChange(val) {
-      if(val!=this.pageSize){
-        this.pageSize=val;
+      if (val != this.pageSize) {
+        this.pageSize = val;
         this.getData();
       }
     },
     handleCurrentChange(val) {
-      if(val!=this.currentPage){
-        this.currentPage=val;
+      if (val != this.currentPage) {
+        this.currentPage = val;
         this.getData();
       }
     },
-
-
 
     //修改数据
     modify(row) {
@@ -355,25 +357,21 @@ export default {
     },
     //请求数据
     getData() {
-
       var self = this;
 
-      var map=new Object();
-      map.currentPage=this.currentPage;
-      map.pageSize=this.pageSize;
+      var map = new Object();
+      map.currentPage = this.currentPage;
+      map.pageSize = this.pageSize;
       axios({
         method: "post",
         url: "http://localhost:8081/sc/spec_find",
         data: map
-        
       })
         .then(res => {
-          
           // console.log(self.tableData);
           console.log(res);
           self.tableData = res.data.list;
-          self.total=res.data.total;
-
+          self.total = res.data.total;
         })
         .catch();
     },
@@ -446,4 +444,7 @@ export default {
 </script>
 
 <style>
+#main {
+  box-shadow: none !important;
+}
 </style>
